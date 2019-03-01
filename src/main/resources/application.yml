@@ -12,6 +12,16 @@ spring:
     mode: HTML5
     prefix: classpath:/templates/
     suffix: .html
+  # redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 3
+    password: 123123
+    jedis:
+      pool:
+        max-idle: 10
+        max-wait: 3
   # druid数据源
   datasource:
     url: jdbc:mysql://192.168.0.118:3306/miaosha?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8

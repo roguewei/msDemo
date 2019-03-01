@@ -42,8 +42,8 @@ public class UserServiceImpl implements IUserService {
         userDao.insert(u1);
 
         User u2 = new User();
-        u2.setId(1);
-        u2.setName("1111");
+        u2.setId(4);
+        u2.setName("4444");
         userDao.insert(u2);
         return true;
     }
