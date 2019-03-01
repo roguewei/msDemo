@@ -56,4 +56,11 @@ public class DemoController {
         User user = userService.getById(1);
         return Result.success(user);
     }
+
+    @RequestMapping("/db/tx")
+    @ResponseBody
+    public Result<Boolean> dbTx(){
+        Boolean b = userService.getTx(1);
+        return Result.success(b);
+    }
 }
