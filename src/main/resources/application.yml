@@ -14,7 +14,26 @@ spring:
     suffix: .html
   # druid数据源
   datasource:
-    url: jdbc:mysql://127.0.0.1
+    url: jdbc:mysql://192.168.0.118:3306/miaosha?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    tomcat:
+      max-active: 2
+      initial-size: 1
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-on-borrow: false
+      test-on-return: false
+    dbcp2:
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+
 # mybatis配置
 mybatis:
   type-aliases-package: com.rogue.gbf.gbfdemo.domain

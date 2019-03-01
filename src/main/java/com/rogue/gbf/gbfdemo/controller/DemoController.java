@@ -1,7 +1,10 @@
 package com.rogue.gbf.gbfdemo.controller;
 
+import com.rogue.gbf.gbfdemo.domain.User;
 import com.rogue.gbf.gbfdemo.result.CodeMsg;
 import com.rogue.gbf.gbfdemo.result.Result;
+import com.rogue.gbf.gbfdemo.service.IUserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 @RequestMapping("/demo")
 public class DemoController {
+
+    @Autowired
+    private IUserService userService;
+
     @RequestMapping("/")
     @ResponseBody
     public String home(){
@@ -41,5 +48,12 @@ public class DemoController {
     public String thymeleaf(Model model){
         model.addAttribute("name", "rogue");
         return "hello";
+    }
+
+    @RequestMapping("/db/get")
+    @ResponseBody
+    public Result<User> dbGet(){
+        User user = userService.getById(1);
+        return Result.success(user);
     }
 }
