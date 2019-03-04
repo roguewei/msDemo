@@ -14,4 +14,13 @@ import lombok.Data;
 public class User {
     private int id;
     private String name;
+
+    public User(){
+
+    }
+
+    public User(int i, String s) {
+        this.id = i;
+        this.name = s;
+    }
 }

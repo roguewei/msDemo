@@ -25,11 +25,11 @@ public class RedisConfig {
     private String password;
     private int poolMaxIdle;
     private int poolMaxWait;
+    private int poolMaxActive;
 
     @Bean
     public JedisPool JedisPoolFactory(){
         JedisPoolConfig poolConfig = new JedisPoolConfig();
-//        poolConfig.setMaxTotal();
         poolConfig.setMaxIdle(this.poolMaxIdle);
         poolConfig.setMaxWaitMillis(this.poolMaxWait * 1000);
         return new JedisPool(poolConfig, this.host, this.port, this.timeout * 1000, this.password,0);
