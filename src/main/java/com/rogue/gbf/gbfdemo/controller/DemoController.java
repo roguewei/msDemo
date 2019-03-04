@@ -1,6 +1,7 @@
 package com.rogue.gbf.gbfdemo.controller;
 
 import com.rogue.gbf.gbfdemo.domain.User;
+import com.rogue.gbf.gbfdemo.redis.RedisService;
 import com.rogue.gbf.gbfdemo.result.CodeMsg;
 import com.rogue.gbf.gbfdemo.result.Result;
 import com.rogue.gbf.gbfdemo.service.IUserService;
@@ -24,6 +25,9 @@ public class DemoController {
 
     @Autowired
     private IUserService userService;
+
+    @Autowired
+    private RedisService redisService;
 
     @RequestMapping("/")
     @ResponseBody
@@ -61,5 +65,20 @@ public class DemoController {
     public Result<Boolean> dbTx(){
         Boolean b = userService.getTx(1);
         return Result.success(b);
+    }
+
+    @RequestMapping("/redis/get")
+    @ResponseBody
+    public Result<String> redisGet(){
+        String v1 = redisService.get("key1", String.class);
+        return Result.success(v1);
+    }
+
+    @RequestMapping("/redis/set")
+    @ResponseBody
+    public Result<String> redisSet(){
+        boolean v1 = redisService.set("key2", "hello world");
+        String v2 = redisService.get("key2", String.class);
+        return Result.success(v2);
     }
 }

@@ -22,6 +22,7 @@ spring:
       pool:
         max-idle: 10
         max-wait: 3
+#        max-total: 10
   # druid数据源
   datasource:
     url: jdbc:mysql://192.168.0.118:3306/miaosha?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8
