@@ -77,6 +77,13 @@
         </dependency>
         <!-- MD5相关依赖 -->
 
+        <!-- jsr参数校验 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        <!-- jsr参数校验 -->
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

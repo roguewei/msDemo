@@ -1,4 +1,4 @@
-package com.rogue.gbf.gbfdemo.utils;
+package com.rogue.gbf.gbfdemo.validator;
 
 import org.springframework.util.StringUtils;
 
