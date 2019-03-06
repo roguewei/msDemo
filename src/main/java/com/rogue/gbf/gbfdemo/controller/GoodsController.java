@@ -1,8 +1,10 @@
 package com.rogue.gbf.gbfdemo.controller;
 
 import com.rogue.gbf.gbfdemo.domain.MiaoshaUser;
+import com.rogue.gbf.gbfdemo.service.IGoodsService;
 import com.rogue.gbf.gbfdemo.service.IMiaoshaUserService;
 import com.rogue.gbf.gbfdemo.service.impl.MiaoshaUserServiceImpl;
+import com.rogue.gbf.gbfdemo.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author weigaosheng
@@ -26,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 public class GoodsController {
 
     @Autowired
-    private IMiaoshaUserService miaoshaUserService;
+    private IGoodsService goodsService;
 
 //    // @CookieValue(value = MiaoshaUserServiceImpl.COOKIE_NAME_TOKEN) String cookieToken获取客户端请求传来的cookie
 //    // @RequestParam(value = MiaoshaUserServiceImpl.COOKIE_NAME_TOKEN) String paramToken这个是兼容客户端用参数形式提交的cookie
@@ -55,6 +58,8 @@ public class GoodsController {
     // @RequestParam(value = MiaoshaUserServiceImpl.COOKIE_NAME_TOKEN) String paramToken这个是兼容客户端用参数形式提交的cookie
     @RequestMapping("/to_list")
     public String goodsList(Model model, MiaoshaUser user){
+        List<GoodsVo> goodsList = goodsService.listGoodsVo();
+        model.addAttribute("goodsList",goodsList);
         model.addAttribute("user", user);
         return "goods_list";
     }
