@@ -63,6 +63,25 @@ public class MiaoshaUserServiceImpl implements IMiaoshaUserService {
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
 
+        addCookie(response, miaoshaUser);
+
+        return true;
+    }
+
+    @Override
+    public MiaoshaUser getByToken(HttpServletResponse response, String token) {
+        if(StringUtils.isEmpty(token)){
+            return null;
+        }
+        MiaoshaUser user = redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
+        // 延长有效期
+        if(user != null){
+            addCookie(response, user);
+        }
+        return user;
+    }
+
+    public void addCookie(HttpServletResponse response, MiaoshaUser miaoshaUser){
         // 生成cookie
         String token = UUIDUtil.uuid();
         redisService.set(MiaoshaUserKey.token, token, miaoshaUser);
@@ -71,15 +90,5 @@ public class MiaoshaUserServiceImpl implements IMiaoshaUserService {
         cookie.setPath("/");
         // 将cookie写到客户端
         response.addCookie(cookie);
-
-        return true;
-    }
-
-    @Override
-    public MiaoshaUser getByToken(String token) {
-        if(StringUtils.isEmpty(token)){
-            return null;
-        }
-        return redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
     }
 }
