@@ -35,6 +35,7 @@
 
 <div class="panel panel-default" style="height:100%;background-color:rgba(222,222,222,0.8)">
   <div class="panel-heading">秒杀商品列表</div>
+  <p th:text="'hello:'+${user.nickname}"/>
   <table class="table" id="goodslist">
   	<tr><td>商品名称</td><td>商品图片</td><td>商品原价</td><td>秒杀价</td><td>库存数量</td><td>详情</td></tr>
   	<tr  th:each="goods,goodsStat : ${goodsList}">  
