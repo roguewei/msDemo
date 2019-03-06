@@ -62,8 +62,9 @@ public class MiaoshaUserServiceImpl implements IMiaoshaUserService {
         if(!calcPass.equals(dbPass)){
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
-
-        addCookie(response, miaoshaUser);
+        // 生成cookie
+        String token = UUIDUtil.uuid();
+        addCookie(response, token, miaoshaUser);
 
         return true;
     }
@@ -76,19 +77,17 @@ public class MiaoshaUserServiceImpl implements IMiaoshaUserService {
         MiaoshaUser user = redisService.get(MiaoshaUserKey.token, token, MiaoshaUser.class);
         // 延长有效期
         if(user != null){
-            addCookie(response, user);
+            addCookie(response, token, user);
         }
         return user;
     }
 
-    public void addCookie(HttpServletResponse response, MiaoshaUser miaoshaUser){
-        // 生成cookie
-        String token = UUIDUtil.uuid();
+    public void addCookie(HttpServletResponse response, String token, MiaoshaUser miaoshaUser){
         redisService.set(MiaoshaUserKey.token, token, miaoshaUser);
         Cookie cookie = new Cookie(COOKIE_NAME_TOKEN, token);
         cookie.setMaxAge(MiaoshaUserKey.token.expireSeconds());
         cookie.setPath("/");
-        // 将cookie写到客户端
+        // 将cookie返回给客户端
         response.addCookie(cookie);
     }
 }
