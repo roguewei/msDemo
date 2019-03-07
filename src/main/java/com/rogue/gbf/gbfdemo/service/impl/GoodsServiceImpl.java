@@ -3,6 +3,7 @@ package com.rogue.gbf.gbfdemo.service.impl;
 import com.rogue.gbf.gbfdemo.dao.GoodsDao;
 import com.rogue.gbf.gbfdemo.dao.UserDao;
 import com.rogue.gbf.gbfdemo.domain.Goods;
+import com.rogue.gbf.gbfdemo.domain.MiaoshaGoods;
 import com.rogue.gbf.gbfdemo.domain.User;
 import com.rogue.gbf.gbfdemo.service.IGoodsService;
 import com.rogue.gbf.gbfdemo.service.IUserService;
@@ -35,6 +36,13 @@ public class GoodsServiceImpl implements IGoodsService {
     @Override
     public GoodsVo getGoodsVoByGoodsId(long goodsId) {
         return goodsDao.getGoodsVoByGoodsId(goodsId);
+    }
+
+    @Override
+    public void reduceStock(GoodsVo goods) {
+        MiaoshaGoods g = new MiaoshaGoods();
+        g.setGoodsId(goods.getId());
+        goodsDao.reduceStock(g);
     }
 
 }

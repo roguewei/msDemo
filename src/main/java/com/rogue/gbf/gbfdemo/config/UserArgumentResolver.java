@@ -3,6 +3,7 @@ package com.rogue.gbf.gbfdemo.config;
 import com.rogue.gbf.gbfdemo.domain.MiaoshaUser;
 import com.rogue.gbf.gbfdemo.service.IMiaoshaUserService;
 import com.rogue.gbf.gbfdemo.service.impl.MiaoshaUserServiceImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
  * @return
  */
 @Component
+@Slf4j
 public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Autowired
@@ -58,6 +60,9 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     private String getCookieValue(HttpServletRequest request, String cookieName) {
         // 获取请求的所有cookie
         Cookie[] cookies = request.getCookies();
+        if(cookies == null || cookies.length <= 0){
+            return null;
+        }
         for(Cookie cookie : cookies){
             if(cookie.getName().equals(cookieName)){
                 return cookie.getValue();
