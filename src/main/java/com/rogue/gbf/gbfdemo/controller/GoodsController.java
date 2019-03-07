@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -62,6 +63,37 @@ public class GoodsController {
         model.addAttribute("goodsList",goodsList);
         model.addAttribute("user", user);
         return "goods_list";
+    }
+
+    @RequestMapping("/to_detail/{goodsId}")
+    public String to_detail(Model model, MiaoshaUser user, @PathVariable("goodsId") long goodsId){
+        GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(goodsId);
+
+        // 秒杀状态
+        int miaoshaStatus = 0;
+        // 秒杀剩余时间
+        int remainSeconds = 0;
+        long startAt = goodsVo.getStartDate().getTime();
+        long endAt = goodsVo.getEndDate().getTime();
+        long now = System.currentTimeMillis();
+        if(now < startAt){
+            // 秒杀还未开始
+            miaoshaStatus = 0;
+            remainSeconds = (int) ((startAt-now)/1000);
+        }else if(now > endAt){
+            // 秒杀已结束
+            miaoshaStatus = 2;
+            remainSeconds = -1;
+        }else{
+            // 秒杀进行中
+            miaoshaStatus = 1;
+            remainSeconds = 0;
+        }
+        model.addAttribute("goods", goodsVo);
+        model.addAttribute("miaoshaStatus", miaoshaStatus);
+        model.addAttribute("remainSeconds", remainSeconds);
+        model.addAttribute("user", user);
+        return "goods_detail";
     }
 
 }
