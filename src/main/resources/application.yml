@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8080
 spring:
   # thymeleaf配置
   thymeleaf:
@@ -23,9 +23,10 @@ spring:
         # 最大空闲数
         max-idle: 1000
         # 最大等待时间 ms
-        max-wait: 3000
+        max-wait: 9000
         # 最大连接数
-        max-active: 500
+        max-active: 1000
+        max-Total: 1000
   # druid数据源
   datasource:
     url: jdbc:mysql://192.168.0.118:3306/miaosha?serverTimezone=UTC&useUnicode=true&characterEncoding=utf-8

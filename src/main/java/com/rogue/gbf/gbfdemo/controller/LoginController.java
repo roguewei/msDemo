@@ -38,7 +38,7 @@ public class LoginController {
 
     @RequestMapping("/do_login")
     @ResponseBody
-    public Result<Boolean> doLogin(HttpServletResponse response, @Valid LoginVo loginVo){
+    public Result<String> doLogin(HttpServletResponse response, @Valid LoginVo loginVo){
         log.info(loginVo.toString());
 //        // 参数校验 （已经用@Valid注解代替）
 //        String passInput = loginVo.getPassword();
@@ -52,7 +52,7 @@ public class LoginController {
 //        }
 
         // 登录
-        boolean result = miaoshaUserService.login(response, loginVo);
+        String result = miaoshaUserService.login(response, loginVo);
         return Result.success(result);
     }
 

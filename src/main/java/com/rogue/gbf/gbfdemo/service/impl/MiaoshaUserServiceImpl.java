@@ -10,6 +10,7 @@ import com.rogue.gbf.gbfdemo.service.IMiaoshaUserService;
 import com.rogue.gbf.gbfdemo.utils.MD5Util;
 import com.rogue.gbf.gbfdemo.utils.UUIDUtil;
 import com.rogue.gbf.gbfdemo.vo.LoginVo;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,6 +27,7 @@ import javax.servlet.http.HttpServletResponse;
  * @return
  */
 @Service
+@Slf4j
 public class MiaoshaUserServiceImpl implements IMiaoshaUserService {
 
     public static final String COOKIE_NAME_TOKEN = "token";
@@ -42,7 +44,7 @@ public class MiaoshaUserServiceImpl implements IMiaoshaUserService {
     }
 
     @Override
-    public boolean login(HttpServletResponse response, LoginVo loginVo) {
+    public String login(HttpServletResponse response, LoginVo loginVo) {
         if(loginVo == null){
             throw new GlobalException(CodeMsg.SERVER_ERROR);
         }
@@ -59,6 +61,7 @@ public class MiaoshaUserServiceImpl implements IMiaoshaUserService {
         // 二次MD5加密处理
         String calcPass = MD5Util.formPassToDBPass(formPass, saltDB);
         // 加密后与数据库中的密码进行比较
+//        log.info(calcPass+"--------");
         if(!calcPass.equals(dbPass)){
             throw new GlobalException(CodeMsg.PASSWORD_ERROR);
         }
@@ -66,7 +69,7 @@ public class MiaoshaUserServiceImpl implements IMiaoshaUserService {
         String token = UUIDUtil.uuid();
         addCookie(response, token, miaoshaUser);
 
-        return true;
+        return token;
     }
 
     @Override
