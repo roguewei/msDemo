@@ -173,8 +173,8 @@ function doMiaosha(path){
 function render(detail){
 	var miaoshaStatus = detail.miaoshaStatus;
 	var  remainSeconds = detail.remainSeconds;
-	var goods = detail.goods;
-	var user = detail.user;
+	var goods = detail.goodsVo;
+	var user = detail.miaoshaUser;
 	if(user){
 		$("#userTip").hide();
 	}
@@ -197,9 +197,10 @@ $(function(){
 function getDetail(){
 	var goodsId = g_getQueryString("goodsId");
 	$.ajax({
-		url:"/goods/detail/"+goodsId,
+		url:"/goods/to_detail2/"+goodsId,
 		type:"GET",
 		success:function(data){
+            console.log(data);
 			if(data.code == 0){
 				render(data.data);
 			}else{
