@@ -13,4 +13,6 @@ public interface IMiaoshaUserService {
     public String login(HttpServletResponse response, LoginVo loginVo);
 
     public MiaoshaUser getByToken(HttpServletResponse response, String token);
+
+    public boolean updatePassword(String token, long id, String passwordNew);
 }

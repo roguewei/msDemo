@@ -70,9 +70,6 @@ public class GoodsController {
     @RequestMapping(value = "/to_list", produces = "text/html")
     @ResponseBody
     public String goodsList(HttpServletRequest request, HttpServletResponse response, Model model, MiaoshaUser user){
-        List<GoodsVo> goodsList = goodsService.listGoodsVo();
-        model.addAttribute("goodsList",goodsList);
-        model.addAttribute("user", user);
         // spring来渲染页面
 //        return "goods_list";
 
@@ -82,6 +79,11 @@ public class GoodsController {
         if(!StringUtils.isEmpty(html)){
             return html;
         }
+        // 没有缓存-查数据库
+        List<GoodsVo> goodsList = goodsService.listGoodsVo();
+        model.addAttribute("goodsList",goodsList);
+        model.addAttribute("user", user);
+
         WebContext springWebContext = new WebContext(request, response, request.getServletContext(), request.getLocale(), model.asMap());
         // 手动渲染
         html = thymeleafViewResolver.getTemplateEngine().process("goods_list", springWebContext);

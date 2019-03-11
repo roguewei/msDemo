@@ -103,6 +103,29 @@ public class RedisService {
     /**
      * @return a
      * @Author weigaosheng
+     * @Description 删除
+     * @Date 14:54 2019/3/
+     * @Param
+     **/
+    public boolean del(KeyPrefix prefix, String key){
+        Jedis jedis = null;
+        try{
+            jedis = jedisPool.getResource();
+            // 生成真正的key
+            String realKey = prefix.getPrefix() + key;
+            long ret = jedis.del(realKey);
+            return ret>0;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }finally {
+            returnToPool(jedis);
+        }
+    }
+
+    /**
+     * @return a
+     * @Author weigaosheng
      * @Description 增加值，比如key1-122，执行命令incr key1 后，值变成123
      * @Date 15:03 2019/3/4
     * @Param
