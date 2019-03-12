@@ -48,6 +48,21 @@ spring:
     dbcp2:
       pool-prepared-statements: true
       max-open-prepared-statements: 20
+  # 页面静态化配置，页面缓存
+  resources:
+    # 启用资源处理
+    add-mappings: true
+    chain:
+      # 启用缓存
+      cache: true
+      enabled: true
+      html-application-cache: true
+      compressed: true
+    # 静态文件的路径
+    static-locations: classpath:/static/
+    # 标明客户端需要缓存多少时间
+    cache:
+      period: 3600
 
 # mybatis配置
 mybatis:

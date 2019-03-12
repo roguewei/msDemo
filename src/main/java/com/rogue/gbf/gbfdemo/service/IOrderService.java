@@ -9,4 +9,6 @@ public interface IOrderService {
     public MiaoshaOrder getMiaoshaOrderByUserIdGoodsId(long id, long goodsId);
 
     public OrderInfo createOrder(MiaoshaUser user, GoodsVo goods);
+
+    public OrderInfo getOrderById(long orderId);
 }

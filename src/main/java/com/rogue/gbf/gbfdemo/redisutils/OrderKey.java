@@ -23,4 +23,6 @@ public class OrderKey extends BasePrefix {
 
     public static OrderKey getByNameOrTimeOut = new OrderKey("name");
     public static OrderKey getByName = new OrderKey(60*60,"name");
+
+    public static OrderKey getMiaoShaOrderByUidGid = new OrderKey("msogid");
 }
