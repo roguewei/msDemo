@@ -1,6 +1,6 @@
 package com.rogue.gbf.gbfdemo.vo;
 
-import com.rogue.gbf.gbfdemo.validator.IsMobile;
+import com.rogue.gbf.gbfdemo.validator.annotation.IsMobile;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 

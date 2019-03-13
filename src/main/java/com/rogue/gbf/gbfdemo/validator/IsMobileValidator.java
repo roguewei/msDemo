@@ -1,5 +1,6 @@
 package com.rogue.gbf.gbfdemo.validator;
 
+import com.rogue.gbf.gbfdemo.validator.annotation.IsMobile;
 import org.springframework.util.StringUtils;
 
 import javax.validation.ConstraintValidator;

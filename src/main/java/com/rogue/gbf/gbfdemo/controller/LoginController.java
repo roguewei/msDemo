@@ -4,6 +4,7 @@ import com.rogue.gbf.gbfdemo.result.CodeMsg;
 import com.rogue.gbf.gbfdemo.result.Result;
 import com.rogue.gbf.gbfdemo.service.IMiaoshaUserService;
 import com.rogue.gbf.gbfdemo.validator.ValidatorUtil;
+import com.rogue.gbf.gbfdemo.validator.annotation.NeedLogin;
 import com.rogue.gbf.gbfdemo.vo.LoginVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

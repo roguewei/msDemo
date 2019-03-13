@@ -6,6 +6,7 @@ import com.rogue.gbf.gbfdemo.result.CodeMsg;
 import com.rogue.gbf.gbfdemo.result.Result;
 import com.rogue.gbf.gbfdemo.service.IGoodsService;
 import com.rogue.gbf.gbfdemo.service.IOrderService;
+import com.rogue.gbf.gbfdemo.validator.annotation.NeedLogin;
 import com.rogue.gbf.gbfdemo.vo.GoodsVo;
 import com.rogue.gbf.gbfdemo.vo.OrderDetailVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,12 +35,12 @@ public class OrderController {
     private IGoodsService goodsService;
 
     @RequestMapping(value = "/detail", method = RequestMethod.POST)
-//    @NeedLogin 自己实现
-    public Result<OrderDetailVo> detail(Model model, MiaoshaUser user, @RequestParam("orderId") long orderId){
+    public Result<OrderDetailVo> detail(Model model, @NeedLogin MiaoshaUser user, @RequestParam("orderId") long orderId){
 
-        if(user == null){
-            return Result.error(CodeMsg.SESSION_ERROR);
-        }
+        // 该判断用@NeedLogin注解去判断
+//        if(user == null){
+//            return Result.error(CodeMsg.SESSION_ERROR);
+//        }
         OrderInfo orderInfo = orderService.getOrderById(orderId);
         if(orderInfo == null){
             return Result.error(CodeMsg.ORDER_NOT_EXIST);

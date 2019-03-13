@@ -1,4 +1,4 @@
-package com.rogue.gbf.gbfdemo.validator;
+package com.rogue.gbf.gbfdemo.validator.annotation;
 
 import javax.validation.Payload;
 import java.lang.annotation.*;
@@ -10,7 +10,7 @@ import java.lang.annotation.*;
  * @Param
  * @return
  **/
-@Target({ElementType.METHOD, ElementType.TYPE})
+@Target({ElementType.PARAMETER, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface NeedLogin {

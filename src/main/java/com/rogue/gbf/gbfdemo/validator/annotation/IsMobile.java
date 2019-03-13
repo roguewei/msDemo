@@ -1,4 +1,6 @@
-package com.rogue.gbf.gbfdemo.validator;
+package com.rogue.gbf.gbfdemo.validator.annotation;
+
+import com.rogue.gbf.gbfdemo.validator.IsMobileValidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

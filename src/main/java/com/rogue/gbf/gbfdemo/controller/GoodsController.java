@@ -7,6 +7,7 @@ import com.rogue.gbf.gbfdemo.result.Result;
 import com.rogue.gbf.gbfdemo.service.IGoodsService;
 import com.rogue.gbf.gbfdemo.service.IMiaoshaUserService;
 import com.rogue.gbf.gbfdemo.service.impl.MiaoshaUserServiceImpl;
+import com.rogue.gbf.gbfdemo.validator.annotation.NeedLogin;
 import com.rogue.gbf.gbfdemo.vo.GoodsDetailVo;
 import com.rogue.gbf.gbfdemo.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -99,7 +100,7 @@ public class GoodsController {
 
     @RequestMapping(value = "/to_detail/{goodsId}", produces = "text/html")
     @ResponseBody
-    public String to_detail(HttpServletRequest request, HttpServletResponse response, Model model, MiaoshaUser user, @PathVariable("goodsId") long goodsId){
+    public String to_detail(HttpServletRequest request, HttpServletResponse response, Model model, @NeedLogin MiaoshaUser user, @PathVariable("goodsId") long goodsId){
         GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(goodsId);
 
         // 取缓存
@@ -153,7 +154,7 @@ public class GoodsController {
      **/
     @RequestMapping(value = "/to_detail2/{goodsId}")
     @ResponseBody
-    public Result<GoodsDetailVo> to_detail2(HttpServletRequest request, HttpServletResponse response, Model model, MiaoshaUser user, @PathVariable("goodsId") long goodsId){
+    public Result<GoodsDetailVo> to_detail2(HttpServletRequest request, HttpServletResponse response, Model model, @NeedLogin MiaoshaUser user, @PathVariable("goodsId") long goodsId){
         GoodsVo goodsVo = goodsService.getGoodsVoByGoodsId(goodsId);
 
         // 秒杀状态
