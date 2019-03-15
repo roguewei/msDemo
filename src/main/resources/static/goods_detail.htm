@@ -65,7 +65,7 @@
         		<div class="form-inline">
 		        	<img id="verifyCodeImg" width="80" height="32"  style="display:none" onclick="refreshVerifyCode()"/>
 		        	<input id="verifyCode"  class="form-control" style="display:none"/>
-		        	<button class="btn btn-primary" type="button" id="buyButton"onclick="getMiaoshaPath()">立即秒杀</button>
+		        	<button class="btn btn-primary" type="button" id="buyButton"onclick="doMiaosha()">立即秒杀</button>
         		</div>
         	</div>
         	<input type="hidden" name="goodsId"  id="goodsId" />
@@ -101,7 +101,6 @@ function getMiaoshaPath(){
 		success:function(data){
 			if(data.code == 0){
 				var path = data.data;
-				console.log("/orderDetail.htm?orderId="+data.data.id);
 				window.location.href="/order_detail.htm?orderId="+data.data.id;
 				doMiaosha(path);
 
@@ -121,7 +120,7 @@ function getMiaoshaResult(goodsId){
 		url:"/miaosha/result",
 		type:"GET",
 		data:{
-			goodsId:$("#goodsId").val(),
+			goodsId:goodsId
 		},
 		success:function(data){
 			if(data.code == 0){
@@ -151,17 +150,18 @@ function getMiaoshaResult(goodsId){
 	});
 }
 
-function doMiaosha(path){
+function doMiaosha(){
+    var goodsId = $("#goodsId").val();
 	$.ajax({
-		url:"/miaosha/"+path+"/do_miaosha",
+		url:"/miaosha/do_miaosha2",
 		type:"POST",
 		data:{
-			goodsId:$("#goodsId").val()
+			goodsId:goodsId
 		},
 		success:function(data){
 			if(data.code == 0){
 				//window.location.href="/order_detail.htm?orderId="+data.data.id;
-				getMiaoshaResult($("#goodsId").val());
+				getMiaoshaResult(goodsId);
 			}else{
 				layer.msg(data.msg);
 			}

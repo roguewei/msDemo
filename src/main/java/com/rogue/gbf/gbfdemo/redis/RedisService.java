@@ -174,7 +174,7 @@ public class RedisService {
      * @Date 9:58 2019/3/
      * @Param
      **/
-    private <T> String beanToString(T value) {
+    public static <T> String beanToString(T value) {
         if(value == null){
             return null;
         }
@@ -198,7 +198,7 @@ public class RedisService {
      * @Param
      **/
     @SuppressWarnings("unchecked")
-    private <T> T stringToBean(String string, Class<T> clazz) {
+    public static <T> T stringToBean(String string, Class<T> clazz) {
         if(StringUtils.isEmpty(string) || clazz == null){
             return null;
         }

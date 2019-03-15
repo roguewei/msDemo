@@ -6,4 +6,6 @@ import com.rogue.gbf.gbfdemo.vo.GoodsVo;
 
 public interface IMiaoshaService {
     public OrderInfo miaosha(MiaoshaUser user, GoodsVo goods);
+
+    public long getMiaoshaResult(Long id, long goodsId);
 }
