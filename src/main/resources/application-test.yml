@@ -1,0 +1,105 @@
+server:
+  port: 8080
+spring:
+  # thymeleaf配置
+  thymeleaf:
+    #是否开启缓存
+    cache: false
+    enabled: true
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    mode: HTML5
+    prefix: classpath:/templates/
+    suffix: .html
+  # redis
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    timeout: 10
+    password: 123123
+    jedis:
+      pool:
+        # 最大空闲数
+        max-idle: 1000
+        # 最大等待时间 ms
+        max-wait: 9000
+        # 最大连接数
+        max-active: 1000
+        max-Total: 1000
+  # druid数据源
+  datasource:
+    url: jdbc:mysql://192.168.0.118:3306/miaosha?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+    filters: stat
+    tomcat:
+      max-active: 1000
+      initial-size: 100
+      max-wait: 60000
+      min-idle: 500
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 300000
+      validation-query: select 'x'
+      test-on-borrow: false
+      test-on-return: false
+    dbcp2:
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+  # 页面静态化配置，页面缓存
+  resources:
+    # 启用资源处理
+    add-mappings: true
+    chain:
+      # 启用缓存
+      cache: true
+      enabled: true
+      html-application-cache: true
+      compressed: true
+    # 静态文件的路径
+    static-locations: classpath:/static/
+    # 标明客户端需要缓存多少时间
+    cache:
+      period: 3600
+  rabbitmq:
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+    virtual-host: /
+    listener:
+      simple:
+        # 消费者数量
+        concurrency: 10
+        # 消费者数量
+        max-concurrency: 10
+        # 每次从prefetch中取几个
+        prefetch: 1
+        # 消费者是否自动启动
+        auto-startup: true
+        # 消息消费失败后是否重新加到队列来
+        default-requeue-rejected: true
+    template:
+      retry:
+        # 队列满了是否重置
+        enabled: true
+        # 多少毫秒之后重试
+        initial-interval: 1000
+        # 对多几次
+        max-attempts: 3
+        # 最大间隔时间多少毫秒
+        max-interval: 10000
+        multiplier: 1.0
+
+# mybatis配置
+mybatis:
+  type-aliases-package: com.rogue.gbf.gbfdemo.domain
+  configuration:
+    #把下划线转换成驼峰
+    map-underscore-to-camel-case: true
+    default-fetch-size: 100
+    default-statement-timeout: 30
+  # 扫描mybatis的mapper和xml配置文件路径
+  mapper-locations: classpath:com/rogue/gbf/gbfdemo/dao/*.xml

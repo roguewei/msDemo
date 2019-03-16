@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author weigaoshneg
@@ -54,6 +56,8 @@ public class MiaoshaController implements InitializingBean {
 
     @Autowired
     private MQSender mqSender;
+
+    private Map<Long, Boolean> localOverMap = new HashMap<Long, Boolean>();
 
     /**
      * @return a
@@ -141,9 +145,18 @@ public class MiaoshaController implements InitializingBean {
         if(user == null){
             return Result.error(CodeMsg.SERVER_ERROR);
         }
+
+        // 做一个标记，减少Redis访问开销
+        boolean over = localOverMap.get(goodsId);
+        if(over){
+            return Result.error(CodeMsg.MIAO_SHA_OVER);
+        }
+
         // 预减库存
         long stock = redisService.decr(GoodsKey.getMiaoshaGoodsStock, ""+goodsId);
         if(stock < 0){
+            // 当没有库存时将标记更改，下一个用户请求时如果没有库存了则不再访问Redis了，减少了Redis的开销
+            localOverMap.put(goodsId, true);
             return Result.error(CodeMsg.MIAO_SHA_OVER);
         }
         // 判断是否已经秒杀到了
@@ -197,6 +210,8 @@ public class MiaoshaController implements InitializingBean {
         for(GoodsVo goodsVo : goodsList){
             // 系统启动时加载商品数量到redis中
             redisService.set(GoodsKey.getMiaoshaGoodsStock, ""+goodsVo.getId(), goodsVo.getStockCount());
+            // 初始化时做一个标记，表明还有库存
+            localOverMap.put(goodsVo.getId(), false);
         }
     }
 }
