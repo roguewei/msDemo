@@ -9,6 +9,8 @@ import com.rogue.gbf.gbfdemo.redisutils.MiaoshaKey;
 import com.rogue.gbf.gbfdemo.service.IGoodsService;
 import com.rogue.gbf.gbfdemo.service.IMiaoshaService;
 import com.rogue.gbf.gbfdemo.service.IOrderService;
+import com.rogue.gbf.gbfdemo.utils.MD5Util;
+import com.rogue.gbf.gbfdemo.utils.UUIDUtil;
 import com.rogue.gbf.gbfdemo.vo.GoodsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,6 +64,22 @@ public class MiaoshaServiceImpl implements IMiaoshaService {
                 return 0;
             }
         }
+    }
+
+    @Override
+    public boolean checkPath(MiaoshaUser user, long goodsId, String path) {
+        if(user == null || path == null){
+            return false;
+        }
+        String savePath = redisService.get(MiaoshaKey.getMiaoshaPath, ""+user.getId()+"_"+goodsId, String.class);
+        return path.equals(savePath);
+    }
+
+    @Override
+    public String createMiaoshaPath(MiaoshaUser user, long goodsId) {
+        String str = MD5Util.md5(UUIDUtil.uuid())+"123456";
+        redisService.set(MiaoshaKey.getMiaoshaPath, ""+user.getId()+"_"+goodsId, str);
+        return str;
     }
 
     private void setGoodsOver(Long goodsId) {

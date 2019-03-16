@@ -7,21 +7,21 @@ import com.rogue.gbf.gbfdemo.rabbitmq.MQSender;
 import com.rogue.gbf.gbfdemo.rabbitmq.MiaoshaMessage;
 import com.rogue.gbf.gbfdemo.redis.RedisService;
 import com.rogue.gbf.gbfdemo.redisutils.GoodsKey;
+import com.rogue.gbf.gbfdemo.redisutils.MiaoshaKey;
 import com.rogue.gbf.gbfdemo.result.CodeMsg;
 import com.rogue.gbf.gbfdemo.result.Result;
 import com.rogue.gbf.gbfdemo.service.IGoodsService;
 import com.rogue.gbf.gbfdemo.service.IMiaoshaService;
 import com.rogue.gbf.gbfdemo.service.IOrderService;
+import com.rogue.gbf.gbfdemo.utils.MD5Util;
+import com.rogue.gbf.gbfdemo.utils.UUIDUtil;
 import com.rogue.gbf.gbfdemo.validator.annotation.NeedLogin;
 import com.rogue.gbf.gbfdemo.vo.GoodsVo;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -139,11 +139,16 @@ public class MiaoshaController implements InitializingBean {
      * @Date 17:51 2019/3/1
      * @Param
      **/
-    @RequestMapping(value = "/do_miaosha2", method = RequestMethod.POST)
+    @RequestMapping(value = "/{path}/do_miaosha2", method = RequestMethod.POST)
     @ResponseBody
-    public Result<Integer> do_miaosha2(Model model, MiaoshaUser user, @RequestParam("goodsId") long goodsId){
+    public Result<Integer> do_miaosha2(Model model, MiaoshaUser user, @RequestParam("goodsId") long goodsId, @PathVariable("path")String path){
         if(user == null){
             return Result.error(CodeMsg.SERVER_ERROR);
+        }
+        //验证path
+        boolean check = miaoshaService.checkPath(user, goodsId, path);
+        if(!check){
+            return Result.error(CodeMsg.REQUEST_ILLEGAL);
         }
 
         // 做一个标记，减少Redis访问开销
@@ -192,6 +197,17 @@ public class MiaoshaController implements InitializingBean {
         // 判断用户是否秒杀到商品
         long result = miaoshaService.getMiaoshaResult(user.getId(), goodsId);
         return Result.success(result);
+    }
+
+    @RequestMapping(value = "path")
+    @ResponseBody
+    public Result<String> getPath(Model model, MiaoshaUser user, long goodsId){
+        model.addAttribute("user", user);
+        if(user == null){
+            return Result.error(CodeMsg.SESSION_ERROR);
+        }
+        String path = miaoshaService.createMiaoshaPath(user, goodsId);
+        return Result.success(path);
     }
 
     /**
