@@ -96,7 +96,7 @@ function getMiaoshaPath(){
 		type:"POST",
 		data:{
 			goodsId:goodsId,
-			// verifyCode:$("#verifyCode").val()
+			verifyCode:$("#verifyCode").val()
 		},
 		success:function(data){
 			if(data.code == 0){
@@ -234,17 +234,18 @@ function countDown(){
 			clearTimeout(timeout);
 		}
 		$("#miaoshaTip").html("秒杀进行中");
-		// $("#verifyCodeImg").attr("src", "/miaosha/verifyCode?goodsId="+$("#goodsId").val());
-		// $("#verifyCodeImg").show();
-		// $("#verifyCode").show();
+		$("#verifyCodeImg").attr("src", "/miaosha/verifyCode?goodsId="+$("#goodsId").val());
+		$("#verifyCodeImg").show();
+		$("#verifyCode").show();
 	}else{//秒杀已经结束
 		$("#buyButton").attr("disabled", true);
 		$("#miaoshaTip").html("秒杀已经结束");
-		// $("#verifyCodeImg").hide();
+		$("#verifyCodeImg").hide();
 		$("#verifyCode").hide();
 	}
 }
 function refreshVerifyCode(){
+    // 浏览器是有缓存的，如果直接请求可能不会有变化，所以加上"&timestamp="+new Date().getTime()
 	$("#verifyCodeImg").attr("src", "/miaosha/verifyCode?goodsId="+$("#goodsId").val()+"&timestamp="+new Date().getTime());
 }
 </script>

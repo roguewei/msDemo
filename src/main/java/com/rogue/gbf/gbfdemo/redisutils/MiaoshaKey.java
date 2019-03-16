@@ -19,4 +19,5 @@ public class MiaoshaKey extends BasePrefix {
 
     public static MiaoshaKey isGoodsOver = new MiaoshaKey("go");
     public static MiaoshaKey getMiaoshaPath = new MiaoshaKey(30, "path");
+    public static MiaoshaKey getMiaoshaPathVerifyCode = new MiaoshaKey(300, "vc");
 }
