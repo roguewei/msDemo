@@ -6,6 +6,7 @@ import com.rogue.gbf.gbfdemo.domain.OrderInfo;
 import com.rogue.gbf.gbfdemo.rabbitmq.MQSender;
 import com.rogue.gbf.gbfdemo.rabbitmq.MiaoshaMessage;
 import com.rogue.gbf.gbfdemo.redis.RedisService;
+import com.rogue.gbf.gbfdemo.redisutils.AccessKey;
 import com.rogue.gbf.gbfdemo.redisutils.GoodsKey;
 import com.rogue.gbf.gbfdemo.redisutils.MiaoshaKey;
 import com.rogue.gbf.gbfdemo.result.CodeMsg;
@@ -15,6 +16,7 @@ import com.rogue.gbf.gbfdemo.service.IMiaoshaService;
 import com.rogue.gbf.gbfdemo.service.IOrderService;
 import com.rogue.gbf.gbfdemo.utils.MD5Util;
 import com.rogue.gbf.gbfdemo.utils.UUIDUtil;
+import com.rogue.gbf.gbfdemo.validator.annotation.AccessLimit;
 import com.rogue.gbf.gbfdemo.validator.annotation.NeedLogin;
 import com.rogue.gbf.gbfdemo.vo.GoodsVo;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,6 +26,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.image.BufferedImage;
 import java.io.OutputStream;
@@ -143,6 +146,7 @@ public class MiaoshaController implements InitializingBean {
      * @Date 17:51 2019/3/1
      * @Param
      **/
+    @AccessLimit(seconds = 60, maxCount = 5, needLogin = true)
     @RequestMapping(value = "/{path}/do_miaosha2", method = RequestMethod.POST)
     @ResponseBody
     public Result<Integer> do_miaosha2(Model model, MiaoshaUser user, @RequestParam("goodsId") long goodsId, @PathVariable("path")String path){
@@ -194,7 +198,7 @@ public class MiaoshaController implements InitializingBean {
      **/
     @RequestMapping("/result")
     @ResponseBody
-    public Result<Long> miaoshaResult(Model model, MiaoshaUser user, long goodsId){
+    public Result<Long> miaoshaResult(MiaoshaUser user, long goodsId){
         if(user == null){
             return Result.error(CodeMsg.SESSION_ERROR);
         }
@@ -210,10 +214,10 @@ public class MiaoshaController implements InitializingBean {
      * @Param
      * @return
      **/
+    @AccessLimit(seconds = 60, maxCount = 5, needLogin = true)
     @RequestMapping(value = "path")
     @ResponseBody
-    public Result<String> getPath(Model model, MiaoshaUser user, long goodsId, int verifyCode){
-        model.addAttribute("user", user);
+    public Result<String> getPath(MiaoshaUser user, long goodsId,@RequestParam(value = "verifyCode") int verifyCode){
         if(user == null){
             return Result.error(CodeMsg.SESSION_ERROR);
         }
@@ -252,8 +256,6 @@ public class MiaoshaController implements InitializingBean {
             return Result.error(CodeMsg.MIAOSHA_FAIL);
         }
     }
-
-
 
     /**
      * @return a

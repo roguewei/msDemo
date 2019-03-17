@@ -18,6 +18,7 @@ public class CodeMsg {
     public static CodeMsg BIND_ERROR = new CodeMsg(500101, "参数校验异常：%s");
     public static CodeMsg SESSION_ERROR = new CodeMsg(500102, "登录超时，请重新登录");
     public static CodeMsg REQUEST_ILLEGAL = new CodeMsg(500103, "请求非法");
+    public static CodeMsg ACCESS_LIMIT = new CodeMsg(500104, "访问过于平凡");
 
     // 登录模块5002XX
     public static CodeMsg PASSWORD_EMPTY = new CodeMsg(500200, "密码不能为空");
@@ -29,7 +30,7 @@ public class CodeMsg {
     // 商品模块5003XX
 
     // 订单模块5004XX
-    public static CodeMsg ORDER_NOT_EXIST = new CodeMsg(500404, "获取订单信息错误");
+    public static CodeMsg ORDER_NOT_EXIST = new CodeMsg(500400, "获取订单信息错误");
 
     // 秒杀模块5005XX
     public static CodeMsg MIAO_SHA_OVER = new CodeMsg(500500, "商品已经秒杀完毕");
